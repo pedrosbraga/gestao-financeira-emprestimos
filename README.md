@@ -1,50 +1,194 @@
-# Welcome to your Expo app 👋
+# Gestão Financeira de Empréstimos
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Sistema de gestão financeira para controle de empréstimos entre pessoas físicas, desenvolvido com React Native e Expo.
 
-## Get started
+## 📱 Sobre o Projeto
 
-1. Install dependencies
+Este aplicativo foi desenvolvido para facilitar o controle e gestão de empréstimos pessoais, oferecendo funcionalidades completas para:
 
-   ```bash
-   npm install
-   ```
+- Cadastro e gestão de clientes
+- Controle de empréstimos ativos
+- Registro de pagamentos (juros e principal)
+- Controle mensal de recebimentos
+- Relatórios financeiros e resumos
+- Funcionamento offline com sincronização automática
 
-2. Start the app
+## 🚀 Tecnologias Utilizadas
 
-   ```bash
-   npx expo start
-   ```
+- **React Native** - Framework para desenvolvimento mobile
+- **Expo** - Plataforma de desenvolvimento
+- **TypeScript** - Linguagem de programação
+- **Supabase** - Backend as a Service (autenticação, banco de dados)
+- **SQLite** - Banco de dados local para funcionamento offline
+- **Redux Toolkit** - Gerenciamento de estado
+- **Zod** - Validação de dados
+- **Jest** - Testes unitários e de integração
 
-In the output, you'll find options to open the app in a
+## 🏗️ Arquitetura
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+O projeto segue uma arquitetura offline-first com sincronização bidirecional:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+src/
+├── components/          # Componentes reutilizáveis
+├── screens/            # Telas da aplicação
+├── services/           # Serviços (API, Database, Sync)
+├── store/              # Redux store e slices
+├── types/              # Definições de tipos TypeScript
+├── validators/         # Validadores Zod
+└── utils/              # Utilitários e helpers
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### Principais Serviços
 
-## Learn more
+- **SQLiteService**: Gerenciamento do banco local
+- **SyncService**: Sincronização com Supabase
+- **AuthService**: Autenticação e autorização
 
-To learn more about developing your project with Expo, look at the following resources:
+## 📋 Funcionalidades
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### ✅ Implementadas
 
-## Join the community
+- [x] Sistema de autenticação com diferentes níveis de acesso
+- [x] Estrutura de dados completa com validação
+- [x] Banco de dados local SQLite
+- [x] Sincronização offline/online
+- [x] Validadores de dados com Zod
+- [x] Testes unitários e de integração
 
-Join our community of developers creating universal apps.
+### 🚧 Em Desenvolvimento
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- [ ] Interface de usuário completa
+- [ ] Telas de cadastro de clientes
+- [ ] Telas de gestão de empréstimos
+- [ ] Controle mensal de pagamentos
+- [ ] Relatórios e dashboards
+
+## 🛠️ Configuração do Ambiente
+
+### Pré-requisitos
+
+- Node.js (versão 18 ou superior)
+- npm ou yarn
+- Expo CLI
+- Conta no Supabase
+
+### Instalação
+
+1. Clone o repositório:
+```bash
+git clone https://github.com/seu-usuario/gestao-financeira-emprestimos.git
+cd gestao-financeira-emprestimos
+```
+
+2. Instale as dependências:
+```bash
+npm install
+```
+
+3. Configure as variáveis de ambiente:
+```bash
+cp .env.example .env
+```
+
+Edite o arquivo `.env` com suas configurações do Supabase:
+```env
+EXPO_PUBLIC_SUPABASE_URL=sua_url_do_supabase
+EXPO_PUBLIC_SUPABASE_ANON_KEY=sua_chave_anonima
+```
+
+4. Configure o Supabase:
+```bash
+npm run supabase:setup
+```
+
+5. Execute o projeto:
+```bash
+npm start
+```
+
+## 🧪 Testes
+
+Execute os testes unitários:
+```bash
+npm test
+```
+
+Execute os testes com coverage:
+```bash
+npm run test:coverage
+```
+
+Execute apenas os testes de validadores:
+```bash
+npm test -- --testPathPattern=validators
+```
+
+## 📊 Estrutura do Banco de Dados
+
+### Entidades Principais
+
+- **Users**: Usuários do sistema (CEO, GERENTE, FINANCEIRO)
+- **Clients**: Clientes que recebem empréstimos
+- **Loans**: Empréstimos concedidos
+- **Payments**: Pagamentos realizados
+- **Monthly Payments**: Controle mensal de pagamentos
+
+### Relacionamentos
+
+```
+Users (1:N) Loans
+Clients (1:N) Loans
+Loans (1:N) Payments
+Loans (1:N) Monthly Payments
+```
+
+## 🔄 Sincronização
+
+O sistema implementa uma arquitetura offline-first com:
+
+- **Funcionamento offline completo**
+- **Sincronização automática quando online**
+- **Detecção e resolução de conflitos**
+- **Estratégias de merge configuráveis**
+
+## 🔐 Segurança
+
+- Autenticação via Supabase Auth
+- Row Level Security (RLS) no banco de dados
+- Validação de dados em tempo real
+- Criptografia de dados sensíveis
+
+## 📱 Compatibilidade
+
+- iOS 11.0+
+- Android API 21+
+- Expo SDK 54
+
+## 🤝 Contribuição
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## 👥 Equipe
+
+- **Desenvolvedor Principal**: [Seu Nome]
+- **Arquitetura**: Offline-first com React Native
+- **Backend**: Supabase
+
+## 📞 Suporte
+
+Para suporte, envie um email para [seu-email@exemplo.com] ou abra uma issue no GitHub.
+
+---
+
+**Status do Projeto**: 🚧 Em Desenvolvimento Ativo
+
+**Última Atualização**: Dezembro 2024
